@@ -51,11 +51,6 @@ DELIMITER //
 
 CREATE PROCEDURE get_age_autori_nazione(IN in_nazione VARCHAR(255))
 BEGIN
-    DECLARE done INT DEFAULT 0;
-    DECLARE aNomeA, aCognomeA VARCHAR(255);
-    DECLARE cursore CURSOR FOR SELECT nomeA, cognomeA FROM autori WHERE nazione = in_nazione AND annoM IS NULL;
-    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
-
     DROP TABLE IF EXISTS autori_eta_temp;
     CREATE TABLE autori_eta_temp (
         nomeA VARCHAR(255),
@@ -63,18 +58,10 @@ BEGIN
         eta INT
     );
 
-    OPEN cursore;
-
-    ciclo: LOOP
-        FETCH cursore INTO aNomeA, aCognomeA;
-        IF done THEN
-            LEAVE ciclo;
-        END IF;
-        INSERT INTO autori_eta_temp(nomeA,cognomeA, eta)
-        VALUES(aNomeA, aCognomeA, get_age_by_autore(aNomeA, aCognomeA));
-    END LOOP ciclo;
-
-    CLOSE cursore;
+    INSERT INTO autori_eta_temp (nomeA, cognomeA, eta)
+    SELECT nomeA, cognomeA, get_age_by_autore(nomeA, cognomeA)
+    FROM autori
+    WHERE nazione = in_nazione AND annoM IS NULL;
 
     SELECT * FROM autori_eta_temp;
 END //
