@@ -1,3 +1,6 @@
+-- IMPORTANTE: creare un database chiamato 'es_libri' in cui creare poi la tabella autori
+-- oppure cambiare il nome del DB nel file db_conf.properties con uno a scelta
+
 
 -- Creazione della tabella autori
 CREATE TABLE `autori` (

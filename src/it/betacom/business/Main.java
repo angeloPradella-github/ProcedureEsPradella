@@ -17,7 +17,7 @@ public class Main {
             stmt.setString(1, "Italia");  
             ResultSet rs = stmt.executeQuery();
             
-            
+            System.out.println("Autori italiani ancora vivi: ");
             while (rs.next()) {
                 String nomeA =rs.getString("nomeA");
                 String cognomeA= rs.getString("cognomeA");
