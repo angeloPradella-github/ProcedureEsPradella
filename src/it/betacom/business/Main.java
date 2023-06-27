@@ -2,6 +2,7 @@ package it.betacom.business;
 
 import it.betacom.util.DBHandler;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
@@ -17,12 +18,20 @@ public class Main {
             stmt.setString(1, "Italia");  
             ResultSet rs = stmt.executeQuery();
             
-            System.out.println("Autori italiani ancora vivi: ");
+            ArrayList<String> authors = new ArrayList<>();
+            
             while (rs.next()) {
                 String nomeA =rs.getString("nomeA");
                 String cognomeA= rs.getString("cognomeA");
                 int eta = rs.getInt("eta");
-                System.out.println("Nome:" + nomeA + ", Cognome: " + cognomeA + ", Età: " + eta);
+                
+                authors.add("Nome:" + nomeA + ", Cognome: " + cognomeA + ", Età: " + eta);
+            }
+            
+            // stampa
+            System.out.println("Autori italiani ancora vivi: ");
+            for (String author : authors) {
+                System.out.println(author);
             }
         } catch (SQLException e) {
             System.out.println("Errore accesso a DB:");
